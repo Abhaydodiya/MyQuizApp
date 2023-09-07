@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<!-- Bootstrap CSS -->
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet">
+	<link rel="stylesheet" th:href="@{/css/index.css}">
+	<title>Home Page</title>
+</head>
+<body>
+	
+	<!-- Importing NavBar -->
+	<div th:insert="navbar.html :: navbar"></div>
+
+	<!-- Main Container Start -->
+	<div class="main-container container py-5 px-4">
+		<div class="image-box">
+			<img th:src="@{/images/exam.svg}" alt="image">
+		</div>
+		<div class="text-box">
+			<h1 class="mb-5 text-center">Spring Boot Quiz App</h1>
+			<form class="card bg-dark py-5 px-4" action="/quiz" method="POST">
+				<p>Enter Your Name</p>
+				<input type="text" name="username" required/>
+				<p class="text-danger warning" th:if="${warning}" th:text="${warning}"></p>
+
+				<p>Enter Number Of Question Do You Want</p>
+				<br>
+				<p class="text-warning warning" th:text="${limit}"></p>
+				<input type="number" name="numberOfQ" th:maxlength="${totalQuestions}" required/>
+				<p class="text-danger warning" th:if="${limitWarning}" th:text="${limitWarning}"></p>
+
+				<p>Choice language/technology</p>
+				<select name="technology">
+					<option value="Java">Java</option>
+					<option value="Python">Python</option>
+					<option value="Html">Html</option>
+					<option value="Css">Css</option>
+					<option value="JavaScript">JavaScript</option>
+					<option value="Android">Android</option>
+					<option value="Kotlin">Kotlin</option>
+				</select>
+				<p class="text-danger warning" th:if="${languageDoesNotHaveQues}" th:text="${languageDoesNotHaveQues}"></p>
+				<button type="submit" class="btn btn-warning">Start Quiz</button>
+			</form>
+		</div>
+	</div>
+	
+	<!-- Importing Footer -->
+	<div th:insert="footer.html :: footer"></div>
+	
+	<!-- Bootstrap JS -->
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
