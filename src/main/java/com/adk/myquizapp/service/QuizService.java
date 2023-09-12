@@ -87,6 +87,10 @@ public class QuizService {
 		return sList;
 	}
 
+	public void setTech(Technology technology)
+	{
+		tRepo.save(technology);
+	}
 	public void setQuestion(Question question)
 	{
 		qRepo.save(question);

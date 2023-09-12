@@ -25,8 +25,14 @@ public class AdminController {
     public String addQuestion(Model model)
     {
         model.addAttribute("listOfTechnology",quizService.getAllTechnology());
-        System.out.println(quizService.getAllTechnology());
         return "admin/addQuestion.html";
+    }
+
+    @RequestMapping("/addTechnology")
+    public String addTech(Model model)
+    {
+        model.addAttribute("listOfTechnology",quizService.getAllTechnology());
+        return "admin/addTechnology.html";
     }
 
     @RequestMapping(value = "/submitQuestion",method = RequestMethod.POST)
@@ -35,7 +41,14 @@ public class AdminController {
         question.setChose('-');
         quizService.setQuestion(question);
         return "redirect:/admin/addQuestion";
-
     }
+
+    @RequestMapping(value = "/submitTechnology",method = RequestMethod.POST)
+    public String submitTech(@ModelAttribute Technology technology, Model model)
+    {
+        quizService.setTech(technology);
+        return "redirect:/admin/addQuestion";
+    }
+
 
 }
