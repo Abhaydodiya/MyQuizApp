@@ -61,14 +61,11 @@
             </div>
             <div class="op">
                 <label>Choice language/technology</label>
+                <p class="text-warning warning">Note : technologyName(No. of questions)</p>
                 <select name="technology">
-                    <option value="Java" selected>Java</option>
-                    <option value="Python">Python</option>
-                    <option value="Html">Html</option>
-                    <option value="Css">Css</option>
-                    <option value="JavaScript">JavaScript</option>
-                    <option value="Android">Android</option>
-                    <option value="Kotlin">Kotlin</option>
+                    <option th:each="technology : ${listOfTechnology} " th:value="${technology.techId}">
+                        <span th:text="${technology.technologyName + '(' + technology.questionSize + ')'}"></span>
+                    </option>
                 </select>
             </div>
         </div>

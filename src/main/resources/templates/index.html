@@ -11,10 +11,8 @@
 	<title>Home Page</title>
 </head>
 <body>
-	
 	<!-- Importing NavBar -->
 	<div th:insert="navbar.html :: navbar"></div>
-
 	<!-- Main Container Start -->
 	<div class="main-container container py-5 px-4">
 		<div class="image-box">
@@ -34,14 +32,12 @@
 				<p class="text-danger warning" th:if="${limitWarning}" th:text="${limitWarning}"></p>
 
 				<p>Choice language/technology</p>
+				<br>
+				<p class="text-warning warning">Note : technologyName(No. of questions)</p>
 				<select name="technology">
-					<option value="Java">Java</option>
-					<option value="Python">Python</option>
-					<option value="Html">Html</option>
-					<option value="Css">Css</option>
-					<option value="JavaScript">JavaScript</option>
-					<option value="Android">Android</option>
-					<option value="Kotlin">Kotlin</option>
+					<option th:each="technology : ${listOfTechnology} " th:value="${technology.techId}">
+						<span th:text="${technology.technologyName + '(' + technology.questionSize + ')'}"></span>
+					</option>
 				</select>
 				<p class="text-danger warning" th:if="${languageDoesNotHaveQues}" th:text="${languageDoesNotHaveQues}"></p>
 				<button type="submit" class="btn btn-warning">Start Quiz</button>

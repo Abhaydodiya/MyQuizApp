@@ -18,14 +18,16 @@ public class Question {
 	private String optionD;
 	private char ans;
 	private char chose;
-	private String technology;
+	@ManyToOne
+	@JoinColumn(name = "technology_id")
+	private Technology technology;
 
 	public Question() {
 		super();
 	}
 
 
-	public Question(int quesId, String title, String optionA, String optionB, String optionC,String optionD, char ans, char chose, String technology) {
+	public Question(int quesId, String title, String optionA, String optionB, String optionC,String optionD, char ans, char chose, Technology technology) {
 		this.quesId = quesId;
 		this.title = title;
 		this.optionA = optionA;
@@ -37,11 +39,11 @@ public class Question {
 		this.technology = technology;
 	}
 
-	public String getTechnology() {
+	public Technology getTechnology() {
 		return technology;
 	}
 
-	public void setTechnology(String technology) {
+	public void setTechnology(Technology technology) {
 		this.technology = technology;
 	}
 

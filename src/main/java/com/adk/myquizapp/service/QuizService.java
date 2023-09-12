@@ -6,8 +6,10 @@ import java.util.Random;
 import com.adk.myquizapp.model.Question;
 import com.adk.myquizapp.model.QuestionForm;
 import com.adk.myquizapp.model.Result;
+import com.adk.myquizapp.model.Technology;
 import com.adk.myquizapp.repository.QuestionRepo;
 import com.adk.myquizapp.repository.ResultRepo;
+import com.adk.myquizapp.repository.TechnologyRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
@@ -22,11 +24,13 @@ public class QuizService {
 	@Autowired
 	QuestionRepo qRepo;
 	@Autowired
+	TechnologyRepo tRepo;
+	@Autowired
 	Result result;
 	@Autowired
 	ResultRepo rRepo;
 	
-	public QuestionForm getQuestions(int size,String technology) {
+	public QuestionForm getQuestions(int size, Technology technology) {
 		List<Question> qList = new ArrayList<Question>();
 		Random random = new Random();
 
@@ -87,4 +91,14 @@ public class QuizService {
 	{
 		qRepo.save(question);
 	}
+
+	public Technology findTechnologyById(int id)
+	{
+		return tRepo.findTechnologyByTechId(id);
+	}
+	public List<Technology> getAllTechnology()
+	{
+		return tRepo.findAll();
+	}
+
 }

@@ -1,6 +1,7 @@
 package com.adk.myquizapp.controller;
 
 import com.adk.myquizapp.model.Question;
+import com.adk.myquizapp.model.Technology;
 import com.adk.myquizapp.service.QuizService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -10,6 +11,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import java.util.List;
+
 @Controller
 @RequestMapping("/admin")
 public class AdminController {
@@ -17,9 +20,12 @@ public class AdminController {
     @Autowired
     QuizService quizService;
 
+
     @RequestMapping("/addQuestion")
-    public String addQuestion()
+    public String addQuestion(Model model)
     {
+        model.addAttribute("listOfTechnology",quizService.getAllTechnology());
+        System.out.println(quizService.getAllTechnology());
         return "admin/addQuestion.html";
     }
 
