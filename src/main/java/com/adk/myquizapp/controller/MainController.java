@@ -29,6 +29,12 @@ public class MainController {
 
 		return result;
 	}
+
+	@GetMapping("/admin")
+	public String dashboard()
+	{
+		return "admin/dashboard";
+	}
 	
 	@GetMapping("/")
 	public String home(Model model) {

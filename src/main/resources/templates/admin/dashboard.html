@@ -23,37 +23,44 @@
   <link rel="stylesheet" th:href="@{/css/admin.css}">
   <title>Admin - Dashboard</title>
   <style>
-    footer {
-      height: 80px;
-      text-align: center;
-      line-height: 80px;
-      position: fixed;
-      width: 100%;
-      bottom: 0;
+    @media (min-width: 890px)
+    {
+      footer {
+        height: 80px;
+        text-align: center;
+        line-height: 80px;
+        position: fixed;
+        width: 100%;
+        bottom: 0;
+      }
     }
+
   </style>
 </head>
 <body>
+
+<!-- Importing NavBar -->
+<div th:insert="admin/adminNavbar.html :: navbar"></div>
+
 <div class="row main-section center">
   <div class="col-lg-4 col-md-6 ol-sm-12">
     <div class="dashbord">
       <div class="icon-section">
-        <i class="fa-regular fa-face-smile"></i><br>
-        <small>Customers</small>
-        <p>256</p>
+        <i class="fa fa-question-circle"></i><br>
+        <small>Questions</small>
+        <p>-</p>
       </div>
       <div class="detail-section">
-        <a href="#">More Info </a>
+        <a href="#">More Info</a>
       </div>
     </div>
   </div>
-
   <div class="col-lg-4 col-md-6 col-sm-12">
     <div class="dashbord dashbord-green">
       <div class="icon-section">
         <i class="fa-regular fa-clipboard"></i><br>
-        <small>Orders</small>
-        <p>$ 256</p>
+        <small>Technology</small>
+        <p>-</p>
       </div>
       <div class="detail-section">
         <a href="#">More Info </a>
@@ -64,8 +71,8 @@
     <div class="dashbord dashbord-orange">
       <div class="icon-section">
         <i class="fa-solid fa-user"></i><br>
-        <small>Admin</small>
-        <p>9 New</p>
+        <small>Users</small>
+        <p>-</p>
       </div>
       <div class="detail-section">
         <a href="#">More Info </a>
@@ -76,23 +83,23 @@
     <div class="dashbord dashbord-blue">
       <div class="icon-section">
         <i aria-hidden="true" class="fa fa-tasks"></i><br>
-        <small>Categories</small>
-        <p>8</p>
+        <small>Add Question</small>
+        <p>-</p>
       </div>
       <div class="detail-section">
-        <a href="#">More Info </a>
+        <a href="admin/addQuestion">More Info </a>
       </div>
     </div>
   </div>
   <div class="col-lg-4 col-md-6 col-sm-12">
     <div class="dashbord dashbord-red">
       <div class="icon-section">
-        <i class="fa-solid fa-piggy-bank"></i><br>
-        <small>Profit</small>
-        <p>$ 24</p>
+        <i class="fa-regular fa-clipboard"></i><br>
+        <small>Add Technology</small>
+        <p>-</p>
       </div>
       <div class="detail-section">
-        <a href="#">More Info </a>
+        <a href="admin/addTechnology">More Info </a>
       </div>
     </div>
   </div>
@@ -100,8 +107,8 @@
     <div class="dashbord dashbord-skyblue">
       <div class="icon-section">
         <i class="fa-solid fa-sitemap"></i><br>
-        <small>Products</small>
-        <p>0</p>
+        <small>Score board</small>
+        <p>-</p>
       </div>
       <div class="detail-section">
         <a href="#">More Info </a>
