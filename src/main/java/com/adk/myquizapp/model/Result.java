@@ -1,6 +1,6 @@
 package com.adk.myquizapp.model;
 
-import jakarta.persistence.*;
+import javax.persistence.*;
 import org.springframework.stereotype.Component;
 
 @Component

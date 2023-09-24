@@ -1,0 +1,30 @@
+.banner {
+    background: url(../images/bg1.jpg);
+    background-size: cover;
+}
+
+hr {
+    border: gray solid thin;
+}
+
+.navbar-light .navbar-nav .nav-link {
+    position: relative;
+    overflow: hidden;
+    padding: 10px;
+    color: black;
+}
+
+.navbar-light .navbar-nav .nav-link::after {
+    content: '';
+    display: block;
+    height: 4px;
+    width: 100%;
+    background-color: black;
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.3s ease;
+}
+
+.navbar-light .navbar-nav .nav-link:hover::after {
+    transform: scaleX(1);
+}

@@ -3,13 +3,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import com.adk.myquizapp.model.Question;
-import com.adk.myquizapp.model.QuestionForm;
-import com.adk.myquizapp.model.Result;
-import com.adk.myquizapp.model.Technology;
+import com.adk.myquizapp.model.*;
 import com.adk.myquizapp.repository.QuestionRepo;
 import com.adk.myquizapp.repository.ResultRepo;
 import com.adk.myquizapp.repository.TechnologyRepo;
+import com.adk.myquizapp.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
@@ -29,17 +27,13 @@ public class QuizService {
 	Result result;
 	@Autowired
 	ResultRepo rRepo;
+	@Autowired
+	UserRepository uRepo;
+
 	
 	public QuestionForm getQuestions(int size, Technology technology) {
 		List<Question> qList = new ArrayList<Question>();
 		Random random = new Random();
-
-//		List<Question> allQues = qRepo.findAll();
-//		for(int i=0; i<size; i++) {
-//			int rand = random.nextInt(allQues.size());
-//			qList.add(allQues.get(rand));
-//			allQues.remove(rand);
-//		}
 
 		List<Question> techWiseQues = qRepo.findQuestionsByTechnology(technology);
         if (!techWiseQues.isEmpty() && techWiseQues.size() >= size) {
@@ -104,5 +98,6 @@ public class QuizService {
 	{
 		return tRepo.findAll();
 	}
+
 
 }
