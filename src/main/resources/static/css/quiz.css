@@ -35,10 +35,15 @@ h1 {
 	color: red;
 }
 
-.option p {
-	margin-left: 15px;
+.option p{
+	padding-left: 5px;
 	position: relative;
-	margin-top: -6px;
+	margin : 5px;
+}
+.option label{
+	padding-left: 5px;
+	position: relative;
+	margin : 5px;
 }
 
 footer {

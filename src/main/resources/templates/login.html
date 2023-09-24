@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/css/index.css}">
+    <title>Quiz Web App | Login</title>
+    <style>
+        .main-container {
+            display: flow;
+        }
+        @media (min-width: 890px)
+        {
+            footer {
+                height: 80px;
+                text-align: center;
+                line-height: 80px;
+                position: fixed;
+                width: 100%;
+                bottom: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<!-- Main Container Start -->
+<div class="main-container container py-5 px-4">
+    <div class="text-box">
+        <h1 class="mb-5 text-center">Login</h1>
+        <form class="card bg-dark py-5 px-4" action="#" method="post" th:action="@{/signin}" th:object="${user}">
+            <div class="alert" role="alert" th:classappend="${session.message.type}" th:if="${session.message}">
+                <p class="text-center" th:text="${session.message.content}"></p>
+                <th:block th:text="${#session.removeAttribute('message')}"></th:block>
+            </div>
+
+            <div class="alert alert-danger" th:if="${param.error}">
+                Invalid email and password
+            </div>
+            <div class="alert alert-success" th:if="${param.logout}">
+                You have been logged out
+            </div>
+            <div class="form-group">
+                <p>Email</p>
+                <input class="form-control" id="email" name="username" placeholder="Enter email" required
+                       th:value="${user.email}" type="email">
+            </div>
+
+            <div class="form-group">
+                <p>Password</p>
+                <input class="form-control" id="password" name="password" placeholder="Enter password"
+                       required th:value="${user.password}"
+                       type="password">
+            </div>
+
+            <div class="text-center">
+                <button class="btn btn-warning" type="submit">Sign in</button>
+                <button class="btn btn-warning" type="reset">Reset</button>
+                <button class="btn btn-warning" onclick="window.location.href='register'" type="button">Sign Up</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Importing Footer -->
+<div th:insert="footer.html :: footer"></div>
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
