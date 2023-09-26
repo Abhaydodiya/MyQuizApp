@@ -68,21 +68,4 @@ public class AuthenticationController {
         }
     }
 
-//    @RequestMapping(path = "/custom_login", method = RequestMethod.POST)
-//    public String userLoginDone(@ModelAttribute("user") User user, Model model, HttpSession session) {
-//        return "user/home";
-//    }
-
-//    @RequestMapping(path = "/user_login", method = RequestMethod.POST)
-//    public String userLoginDone(@ModelAttribute("user") User user, @RequestParam("email") String email, @RequestParam("password") String password, Model model, HttpSession session) {
-//        List<User> byEmailAndPassword = userRepository.findByEmailAndPassword(email, password);
-//
-//        if (byEmailAndPassword.iterator().hasNext()) {
-//            session.setAttribute("message", new Message("Login successful !!", "alert-success"));
-//            return "user/home";
-//        } else {
-//            session.setAttribute("message", new Message("Something went wrong !! Your email or password are wrong please enter again carefully !!", "alert-danger"));
-//            return "login";
-//        }
-//    }
 }

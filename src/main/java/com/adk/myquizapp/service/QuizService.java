@@ -1,13 +1,11 @@
 package com.adk.myquizapp.service;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
 import com.adk.myquizapp.model.*;
-import com.adk.myquizapp.repository.QuestionRepo;
-import com.adk.myquizapp.repository.ResultRepo;
-import com.adk.myquizapp.repository.TechnologyRepo;
-import com.adk.myquizapp.repository.UserRepository;
+import com.adk.myquizapp.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
@@ -29,6 +27,8 @@ public class QuizService {
 	ResultRepo rRepo;
 	@Autowired
 	UserRepository uRepo;
+	@Autowired
+	QuizRepo quizRepo;
 
 	
 	public QuestionForm getQuestions(int size, Technology technology) {
@@ -94,6 +94,11 @@ public class QuizService {
 	{
 		return tRepo.findTechnologyByTechId(id);
 	}
+	public Technology findTechnologyByName(String name)
+	{
+		return tRepo.findTechnologyByTechnologyName(name);
+	}
+
 	public List<Technology> getAllTechnology()
 	{
 		return tRepo.findAll();
@@ -103,5 +108,15 @@ public class QuizService {
 	{
 		return uRepo.getUserByEmail(email);
 	}
+
+	public List<Quiz> findUpcomingQuizzes(LocalDateTime currentDateTime) {
+		return quizRepo.findByScheduledDatetimeBefore(currentDateTime);
+	}
+
+	public void activateQuiz(Quiz quiz) {
+		quiz.setActive(true);
+		quizRepo.save(quiz);
+	}
+
 
 }

@@ -2,53 +2,80 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org">
 <head>
-	<meta charset="UTF-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<!-- Bootstrap CSS -->
-	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet">
-	<link rel="stylesheet" th:href="@{/css/index.css}">
-	<title>Home Page</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/css/index.css}">
+    <title>Home Page</title>
+    <style>
+        @media (max-width: 320px) {
+            #exam-image {
+                display: none;
+            }
+        }
+    </style>
+
 </head>
 <body>
-	<!-- Importing NavBar -->
-	<div th:insert="user/navbar.html :: navbar"></div>
-	<!-- Main Container Start -->
-	<div class="main-container container py-5 px-4">
-		<div class="image-box">
-			<img th:src="@{/images/exam.svg}" alt="image">
-		</div>
-		<div class="text-box">
-			<h1 class="mb-5 text-center" th:text="${welcome}"></h1>
-			<form class="card bg-dark py-5 px-4" action="/user/quiz" method="POST">
-				<p>Enter Your Name</p>
-				<input type="text" name="username" th:value="${name}" required/>
-				<p class="text-danger warning" th:if="${warning}" th:text="${warning}"></p>
+<!-- Importing NavBar -->
+<div th:insert="user/navbar.html :: navbar"></div>
+<!-- Main Container Start -->
+<div class="main-container container py-5 px-4">
+    <div class="image-box">
+        <img id="exam-image" th:src="@{/images/exam.svg}" alt="image">
+    </div>
+    <div class="row">
+        <div class="text-box col-md-6">
+            <h1 class="mb-5 text-center" th:text="${welcome}"></h1>
+            <form class="card bg-dark py-5 px-4" action="/user/code_quiz" method="POST">
+                <h3 align="center" style="color: white ; margin-top: 0">Quiz By Code</h3>
+                <p>Enter Your Name</p>
+                <input type="text" name="username" th:value="${name}" required/>
+                <p>Enter Join Code</p>
+                <input type="number" placeholder="000000" name="quizCode" required/>
+                <button type="submit" class="btn btn-warning">Start Quiz</button>
+            </form>
+        </div>
+        <div class="text-box col-md-6">
+            <form class="card bg-dark py-5 px-4" action="/user/quiz" method="POST">
+                <p>Enter Your Name</p>
+                <input type="text" name="username" th:value="${name}" required/>
+                <p class="text-danger warning" th:if="${warning}" th:text="${warning}"></p>
 
-				<p>Enter Number Of Question Do You Want</p>
-				<br>
-				<p class="text-warning warning" th:text="${limit}"></p>
-				<input type="number" name="numberOfQ" th:maxlength="${totalQuestions}" required/>
-				<p class="text-danger warning" th:if="${limitWarning}" th:text="${limitWarning}"></p>
+                <p>Enter Number Of Question Do You Want</p>
+                <br>
+                <p class="text-warning warning" th:text="${limit}"></p>
+                <input type="number" name="numberOfQ" th:maxlength="${totalQuestions}" required/>
+                <p class="text-danger warning" th:if="${limitWarning}" th:text="${limitWarning}"></p>
 
-				<p>Choice language/technology</p>
-				<br>
-				<p class="text-warning warning">Note : technologyName(No. of questions)</p>
-				<select name="technology">
-					<option th:each="technology : ${listOfTechnology} " th:value="${technology.techId}">
-						<span th:text="${technology.technologyName + '(' + technology.questionSize + ')'}"></span>
-					</option>
-				</select>
-				<p class="text-danger warning" th:if="${languageDoesNotHaveQues}" th:text="${languageDoesNotHaveQues}"></p>
-				<button type="submit" class="btn btn-warning">Start Quiz</button>
-			</form>
-		</div>
-	</div>
-	
-	<!-- Importing Footer -->
-	<div th:insert="footer.html :: footer"></div>
-	
-	<!-- Bootstrap JS -->
-	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js"></script>
+                <p>Choice language/technology</p>
+                <br>
+                <p class="text-warning warning">Note : technologyName(No. of questions)</p>
+                <select name="technology">
+                    <option th:each="technology : ${listOfTechnology} " th:value="${technology.techId}">
+                        <span th:text="${technology.technologyName + '(' + technology.questionSize + ')'}"></span>
+                    </option>
+                </select>
+                <p class="text-danger warning" th:if="${languageDoesNotHaveQues}"
+                   th:text="${languageDoesNotHaveQues}"></p>
+                <button type="submit" class="btn btn-warning">Start Quiz</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<!-- Include Bootstrap JS and jQuery if needed -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+<!-- Importing Footer -->
+<div th:insert="footer.html :: footer"></div>
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

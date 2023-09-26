@@ -1,9 +1,7 @@
 package com.adk.myquizapp.controller;
 
-import com.adk.myquizapp.model.QuestionForm;
-import com.adk.myquizapp.model.Result;
-import com.adk.myquizapp.model.Technology;
-import com.adk.myquizapp.model.User;
+import com.adk.myquizapp.model.*;
+import com.adk.myquizapp.repository.QuizRepo;
 import com.adk.myquizapp.service.QuizService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -23,6 +21,10 @@ public class UserController {
     Result result;
     @Autowired
     QuizService qService;
+    @Autowired
+    QuizRepo quizRepo;
+    @Autowired
+    QuizScheduler quizScheduler;
 
     Boolean submitted = false;
     @ModelAttribute("result")
@@ -87,5 +89,32 @@ public class UserController {
         List<Result> sList = qService.getTopScore();
         m.addAttribute("sList", sList);
         return "user/scoreboard";
+    }
+    @PostMapping("/code_quiz")
+    public String codeQuiz(@RequestParam("username") String username,@RequestParam("quizCode") int quizCode,Model m , RedirectAttributes ra)
+    {
+        submitted = false;
+        result.setUsername(username);
+
+        Quiz quizByQuizCode = quizRepo.findQuizByQuizCode(quizCode);
+        quizScheduler.updateQuizStatus();
+        if(quizByQuizCode.isActive())
+        {
+            Technology techById = qService.findTechnologyById(qService.findTechnologyByName(quizByQuizCode.getTechnology()).getTechId());
+
+            QuestionForm qForm = qService.getQuestions(quizByQuizCode.getNumberOfQuestions(),techById);
+            if(qForm.getQuestions().isEmpty())
+            {
+                ra.addFlashAttribute("languageDoesNotHaveQues", "Your selected language does not have any questions in our platform.");
+                return "redirect:user/home";
+            } else if (qForm.getQuestions().size()<quizByQuizCode.getNumberOfQuestions()) {
+                m.addAttribute("doNotHaveEnoughQues", "We do not have enough question which you have entered technology, but we have "+ qForm.getQuestions().size() + " questions, that is there.");
+            }
+            m.addAttribute("qForm", qForm);
+            return "user/quiz";
+        }
+        else {
+            return "user/index";
+        }
     }
 }

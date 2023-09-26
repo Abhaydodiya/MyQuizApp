@@ -6,5 +6,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 public interface TechnologyRepo extends JpaRepository<Technology,Integer> {
 
     public Technology findTechnologyByTechId(int id);
+    public Technology findTechnologyByTechnologyName(String name);
 
 }

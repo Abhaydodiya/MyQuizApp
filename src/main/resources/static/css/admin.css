@@ -163,3 +163,14 @@ body {
     background-color: #803D9B;
 }
 
+.dashbord-lightgreen .icon-section, .dashbord-lightgreen .icon-section i {
+    background-color: #f86565;
+}
+
+.dashbord-lightgreen .detail-section {
+    background-color: #f86565;
+}
+
+.no-underline {
+    text-decoration: none; /* Remove underline for links */
+}

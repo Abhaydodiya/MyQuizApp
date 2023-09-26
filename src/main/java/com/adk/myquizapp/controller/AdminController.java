@@ -1,9 +1,8 @@
 package com.adk.myquizapp.controller;
 
-import com.adk.myquizapp.model.Question;
-import com.adk.myquizapp.model.Result;
-import com.adk.myquizapp.model.Technology;
-import com.adk.myquizapp.model.User;
+import com.adk.myquizapp.model.*;
+import com.adk.myquizapp.repository.QuestionRepo;
+import com.adk.myquizapp.repository.QuizRepo;
 import com.adk.myquizapp.service.QuizService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -11,6 +10,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Date;
 import java.util.List;
 
 @Controller
@@ -19,6 +21,10 @@ public class AdminController {
 
     @Autowired
     QuizService quizService;
+    @Autowired
+    QuestionRepo questionRepo;
+    @Autowired
+    QuizRepo quizRepo;
 
     public User getUser(Principal principal) {
         String user = principal.getName();
@@ -39,6 +45,15 @@ public class AdminController {
         model.addAttribute("name",getUser(principal).getName());
 
         return "admin/addQuestion";
+    }
+
+    @GetMapping("/questions")
+    public String questions(Model model,Principal principal)
+    {
+        model.addAttribute("questions",questionRepo.findAll());
+        model.addAttribute("name",getUser(principal).getName());
+
+        return "admin/questions";
     }
 
     @RequestMapping("/addTechnology")
@@ -62,5 +77,23 @@ public class AdminController {
     {
         quizService.setTech(technology);
         return "redirect:/admin/addQuestion";
+    }
+
+    @GetMapping(value = "/quizGenerate")
+    public String generateQuiz(Model model)
+    {
+        model.addAttribute("listOfTechnology",quizService.getAllTechnology());
+        return "admin/quizGenerate";
+    }
+
+    @PostMapping(value = "/generate-quiz")
+    public String submitQuizSchedule(@ModelAttribute Quiz q,@RequestParam("schedule") String schedule,Model model)
+    {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm");
+        LocalDateTime scheduledDateTime = LocalDateTime.parse(schedule, formatter);
+        q.setScheduledDatetime(scheduledDateTime);
+        q.setActive(false);
+        quizRepo.save(q);
+        return "redirect:/admin/dashboard";
     }
 }

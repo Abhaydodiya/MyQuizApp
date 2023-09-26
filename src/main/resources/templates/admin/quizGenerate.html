@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/css/admin.css}">
+    <title>Admin - Add Technology</title>
+
+</head>
+<body>
+
+<!-- Importing NavBar -->
+<div th:insert="admin/adminNavbar.html :: navbar"></div>
+
+<div class="container py-5 px-4">
+    <h1 class="bg-danger text-light">Add Technology</h1>
+    <form class="card bg-dark py-5 px-4" action="generate-quiz" method="POST">
+        <div class="ques-box bg-dark text-light">
+
+            <div class="title">
+                <label>Number of Questions</label>
+                <br>
+                <input type="number" placeholder="Enter Questions Size" name="numberOfQuestions" required/>
+            </div>
+
+            <div class="title">
+                <label>Quiz Code</label>
+                <br>
+                <input type="number" placeholder="Enter Unique Quiz Code" name="quizCode" required/>
+            </div>
+
+            <div class="op">
+                <label>Select Technology</label>
+                <p class="text-warning warning">Note : technologyName(No. of questions)</p>
+                <label>
+                    <select name="technology">
+                        <option th:each="technology : ${listOfTechnology} " th:value="${technology.technologyName}">
+                            <span th:text="${technology.technologyName + '(' + technology.questionSize + ')'}"></span>
+                        </option>
+                    </select>
+                </label>
+            </div>
+
+            <div class="title">
+                <label>Schedule Quiz:</label>
+                <br>
+                <input type="datetime-local" name="schedule"><br><br>
+            </div>
+
+            <button type="submit" class="btn btn-danger d-block mx-auto mt-4">Generate Quiz</button>
+
+        </div>
+    </form>
+</div>
+
+<!-- Importing Footer -->
+<div th:insert="footer.html :: footer"></div>
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
