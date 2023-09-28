@@ -27,6 +27,7 @@ public class UserController {
     QuizScheduler quizScheduler;
 
     Boolean submitted = false;
+
     @ModelAttribute("result")
     public Result getResult() {
 
@@ -37,22 +38,20 @@ public class UserController {
     public String home(Model model, Principal principal) {
         String email = principal.getName();
         User userByEmail = qService.getUserByEmail(email);
-        model.addAttribute("totalQuestions",qService.getQuestionsSize());
-        model.addAttribute("limit","Note : Maximum "+qService.getQuestionsSize()+" number of questions allowed to enter.");
-        model.addAttribute("listOfTechnology",qService.getAllTechnology());
-        model.addAttribute("welcome","Welcome, "+userByEmail.getName());
-        model.addAttribute("name",userByEmail.getName());
+        model.addAttribute("totalQuestions", qService.getQuestionsSize());
+        model.addAttribute("limit", "Note : Maximum " + qService.getQuestionsSize() + " number of questions allowed to enter.");
+        model.addAttribute("listOfTechnology", qService.getAllTechnology());
+        model.addAttribute("welcome", "Welcome, " + userByEmail.getName());
+        model.addAttribute("name", userByEmail.getName());
         return "user/index";
     }
 
     @PostMapping("/quiz")
     public String quiz(@RequestParam String username, @RequestParam int numberOfQ, @RequestParam int technology, Model m, RedirectAttributes ra) {
-        if(username.isEmpty()) {
+        if (username.isEmpty()) {
             ra.addFlashAttribute("warning", "You must enter your name");
             return "redirect:user/home";
-        }
-        else if(numberOfQ>qService.getQuestionsSize() && numberOfQ<0)
-        {
+        } else if (numberOfQ > qService.getQuestionsSize() && numberOfQ < 0) {
             ra.addFlashAttribute("limitWarning", "Please enter correct number of questions");
             return "redirect:user/home";
         }
@@ -61,13 +60,12 @@ public class UserController {
         result.setUsername(username);
         Technology techById = qService.findTechnologyById(technology);
 
-        QuestionForm qForm = qService.getQuestions(numberOfQ,techById);
-        if(qForm.getQuestions().isEmpty())
-        {
+        QuestionForm qForm = qService.getQuestions(numberOfQ, techById);
+        if (qForm.getQuestions().isEmpty()) {
             ra.addFlashAttribute("languageDoesNotHaveQues", "Your selected language does not have any questions in our platform.");
             return "redirect:user/home";
-        } else if (qForm.getQuestions().size()<numberOfQ) {
-            m.addAttribute("doNotHaveEnoughQues", "We do not have enough question which you have entered technology, but we have "+ qForm.getQuestions().size() + " questions, that is there.");
+        } else if (qForm.getQuestions().size() < numberOfQ) {
+            m.addAttribute("doNotHaveEnoughQues", "We do not have enough question which you have entered technology, but we have " + qForm.getQuestions().size() + " questions, that is there.");
         }
         m.addAttribute("qForm", qForm);
         return "user/quiz";
@@ -75,12 +73,12 @@ public class UserController {
 
     @PostMapping("/submit")
     public String submit(@ModelAttribute QuestionForm qForm, Model m) {
-        if(!submitted) {
+        if (!submitted) {
             result.setTotalCorrect(qService.getResult(qForm));
             qService.saveScore(result);
             submitted = true;
         }
-        m.addAttribute("totalQues",qForm.getQuestions().size());
+        m.addAttribute("totalQues", qForm.getQuestions().size());
         return "user/result";
     }
 
@@ -90,30 +88,31 @@ public class UserController {
         m.addAttribute("sList", sList);
         return "user/scoreboard";
     }
+
     @PostMapping("/code_quiz")
-    public String codeQuiz(@RequestParam("username") String username,@RequestParam("quizCode") int quizCode,Model m , RedirectAttributes ra)
-    {
+    public String codeQuiz(@RequestParam("username") String username, @RequestParam("quizCode") int quizCode, Model m, RedirectAttributes ra) {
         submitted = false;
         result.setUsername(username);
+        try {
+            Quiz quizByQuizCode = quizRepo.findQuizByQuizCode(quizCode);
+            quizScheduler.updateQuizStatus();
+            if (quizByQuizCode.isActive()) {
+                Technology techById = qService.findTechnologyById(qService.findTechnologyByName(quizByQuizCode.getTechnology()).getTechId());
 
-        Quiz quizByQuizCode = quizRepo.findQuizByQuizCode(quizCode);
-        quizScheduler.updateQuizStatus();
-        if(quizByQuizCode.isActive())
-        {
-            Technology techById = qService.findTechnologyById(qService.findTechnologyByName(quizByQuizCode.getTechnology()).getTechId());
-
-            QuestionForm qForm = qService.getQuestions(quizByQuizCode.getNumberOfQuestions(),techById);
-            if(qForm.getQuestions().isEmpty())
-            {
-                ra.addFlashAttribute("languageDoesNotHaveQues", "Your selected language does not have any questions in our platform.");
-                return "redirect:user/home";
-            } else if (qForm.getQuestions().size()<quizByQuizCode.getNumberOfQuestions()) {
-                m.addAttribute("doNotHaveEnoughQues", "We do not have enough question which you have entered technology, but we have "+ qForm.getQuestions().size() + " questions, that is there.");
+                QuestionForm qForm = qService.getQuestions(quizByQuizCode.getNumberOfQuestions(), techById);
+                if (qForm.getQuestions().isEmpty()) {
+                    ra.addFlashAttribute("languageDoesNotHaveQues", "Your selected language does not have any questions in our platform.");
+                    return "redirect:user/home";
+                } else if (qForm.getQuestions().size() < quizByQuizCode.getNumberOfQuestions()) {
+                    m.addAttribute("doNotHaveEnoughQues", "We do not have enough question which you have entered technology, but we have " + qForm.getQuestions().size() + " questions, that is there.");
+                }
+                m.addAttribute("qForm", qForm);
+                return "user/quiz";
+            } else {
+                return "user/index";
             }
-            m.addAttribute("qForm", qForm);
-            return "user/quiz";
-        }
-        else {
+        } catch (Exception e)
+        {
             return "user/index";
         }
     }

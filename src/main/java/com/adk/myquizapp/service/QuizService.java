@@ -113,10 +113,4 @@ public class QuizService {
 		return quizRepo.findByScheduledDatetimeBefore(currentDateTime);
 	}
 
-	public void activateQuiz(Quiz quiz) {
-		quiz.setActive(true);
-		quizRepo.save(quiz);
-	}
-
-
 }

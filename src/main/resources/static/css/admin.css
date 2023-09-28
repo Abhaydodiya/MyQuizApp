@@ -135,7 +135,7 @@ body {
     background-color: #F39C12;
 }
 
-.dashbord-orange .detail-section {
+.detail-section-orange {
     background-color: #DA8C10;
 }
 
@@ -161,14 +161,6 @@ body {
 
 .dashbord-skyblue .detail-section {
     background-color: #803D9B;
-}
-
-.dashbord-lightgreen .icon-section, .dashbord-lightgreen .icon-section i {
-    background-color: #f86565;
-}
-
-.dashbord-lightgreen .detail-section {
-    background-color: #f86565;
 }
 
 .no-underline {

@@ -12,8 +12,6 @@ body {
 .main-container {
 	min-height: calc(100vh - 136px);
 	display: grid;
-	grid-template-columns: 1fr;
-	grid-template-rows: 1fr 1fr;
 	grid-template-areas: "image-box"
 						"text-box";
 	row-gap: 50px;

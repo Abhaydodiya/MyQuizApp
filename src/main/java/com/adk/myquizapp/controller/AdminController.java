@@ -56,6 +56,23 @@ public class AdminController {
         return "admin/questions";
     }
 
+    @GetMapping("/technologies")
+    public String technologies(Model model,Principal principal)
+    {
+        model.addAttribute("technologies",quizService.getAllTechnology());
+        model.addAttribute("name",getUser(principal).getName());
+
+        return "admin/technologies";
+    }
+
+    @GetMapping("/scoreboard")
+    public String scoreboard(Model m)
+    {
+        List<Result> sList = quizService.getTopScore();
+        m.addAttribute("sList", sList);
+        return "user/scoreboard";
+    }
+
     @RequestMapping("/addTechnology")
     public String addTech(Model model,Principal principal)
     {
