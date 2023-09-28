@@ -8,7 +8,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
+import org.xhtmlrenderer.pdf.ITextRenderer;
 
+import java.io.ByteArrayOutputStream;
 import java.security.Principal;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -70,6 +73,7 @@ public class AdminController {
     {
         List<Result> sList = quizService.getTopScore();
         m.addAttribute("sList", sList);
+        m.addAttribute("admin","admin");
         return "user/scoreboard";
     }
 
@@ -113,4 +117,19 @@ public class AdminController {
         quizRepo.save(q);
         return "redirect:/admin/dashboard";
     }
+
+    @GetMapping("/question/deleteQuestion/{id}")
+    public String deleteQuestion(@PathVariable(value = "id") int id)
+    {
+        quizService.deleteQuestionById(id);
+        return "redirect:/admin/questions";
+    }
+
+    @GetMapping("/technology/deleteTechnology/{id}")
+    public String deleteTechnology(@PathVariable(value = "id") int id)
+    {
+        quizService.deleteTechById(id);
+        return "redirect:/admin/technologies";
+    }
+
 }

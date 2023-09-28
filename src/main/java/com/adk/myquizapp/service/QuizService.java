@@ -113,4 +113,14 @@ public class QuizService {
 		return quizRepo.findByScheduledDatetimeBefore(currentDateTime);
 	}
 
+	public void deleteQuestionById(int id)
+	{
+		qRepo.deleteById(id);
+	}
+	public void deleteTechById(int id)
+	{
+		tRepo.deleteById(id);
+	}
+
+
 }

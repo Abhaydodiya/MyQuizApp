@@ -86,6 +86,7 @@ public class UserController {
     public String score(Model m) {
         List<Result> sList = qService.getTopScore();
         m.addAttribute("sList", sList);
+        m.addAttribute("user","user");
         return "user/scoreboard";
     }
 
