@@ -3,16 +3,17 @@ package com.adk.myquizapp.controller;
 import com.adk.myquizapp.helper.Message;
 import com.adk.myquizapp.model.User;
 import com.adk.myquizapp.repository.UserRepository;
+import com.adk.myquizapp.service.EmailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
 import java.util.List;
+import java.util.Random;
+import java.util.Vector;
 
 @Controller
 public class AuthenticationController {
@@ -21,6 +22,9 @@ public class AuthenticationController {
 
     @Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder;
+
+    @Autowired
+    private EmailService emailService;
 
     @RequestMapping("/signin")
     public String userLoginPage(Model model) {
@@ -68,4 +72,61 @@ public class AuthenticationController {
         }
     }
 
+    @RequestMapping("/signin/forgot")
+    public String userPassForgetPage(Model model)
+    {
+        model.addAttribute("user",new User());
+        return "forgot";
+    }
+
+    @PostMapping("/forget")
+    public String verifyEmailForForgetAndSendOtp(@RequestParam("username") String email,Model model,HttpSession session)
+    {
+        Random random = new Random();
+        int otp = random.nextInt(999999);
+        String subject = "OTP From QuizWebApp";
+        String message = "OTP = "+otp;
+        boolean flag = this.emailService.sendEmail(message,subject,email);
+
+        if(flag)
+        {
+            User user = new User();
+            user.setEmail(email);
+            model.addAttribute("user",user);
+            session.setAttribute("otp",otp);
+            return "/forgot";
+        }
+        else {
+            User user = new User();
+            user.setEmail(email);
+            model.addAttribute("user",user);
+            return "/forgot";
+        }
+    }
+
+    @PostMapping("/otp")
+    public String verifyOTP(@RequestParam("otp") int otp,HttpSession session,Model model)
+    {
+        if(otp == (int) session.getAttribute("otp"))
+        {
+            return "reset_password";
+        }
+        else {
+            model.addAttribute("incorrect","Your Otp Incorrect, Please Try Again.");
+            return "/forgot";
+        }
+    }
+
+    @PostMapping("/new_pass")
+    public String newPassVerify(@RequestParam("password") int pass,@RequestParam("re_password") int rePass,Model model)
+    {
+        if(pass!=rePass)
+        {
+            return "reset_password";
+        }
+        else {
+            model.addAttribute("user",new User());
+            return "login";
+        }
+    }
 }
