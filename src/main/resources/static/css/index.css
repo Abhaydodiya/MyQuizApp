@@ -76,3 +76,11 @@ footer {
 	text-align: center;
 	line-height: 80px;
 }
+
+.alert {
+	position: absolute;
+	top: 5%; /* Adjust this value to move the alert up or down relative to the parent container */
+	left: 50%;
+	transform: translate(-50%, -50%);
+	z-index: 9999; /* Ensure the alert appears above other elements */
+}

@@ -5,6 +5,7 @@ import com.adk.myquizapp.model.User;
 import com.adk.myquizapp.repository.UserRepository;
 import com.adk.myquizapp.service.EmailService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -27,9 +28,8 @@ public class AuthenticationController {
     private EmailService emailService;
 
     @RequestMapping("/signin")
-    public String userLoginPage(Model model) {
+    public String userLoginPage(Model model,HttpSession session) {
         model.addAttribute("title", "Sign in | Welcome to our shopping mart...");
-//        model.addAttribute("login_line",model.getAttribute("login_line"));
         model.addAttribute("user", new User());
         return "login";
     }
@@ -82,31 +82,42 @@ public class AuthenticationController {
     @PostMapping("/forget")
     public String verifyEmailForForgetAndSendOtp(@RequestParam("username") String email,Model model,HttpSession session)
     {
-        Random random = new Random();
-        int otp = random.nextInt(999999);
-        String subject = "OTP From QuizWebApp";
-        String message = "OTP = "+otp;
-        boolean flag = this.emailService.sendEmail(message,subject,email);
 
-        if(flag)
+        User user = new User();
+        user.setEmail(email);
+        model.addAttribute("user",user);
+        session.setAttribute("email",email);
+        User userByEmail = userRepository.getUserByEmail(email);
+        if(userByEmail==null)
         {
-            User user = new User();
-            user.setEmail(email);
-            model.addAttribute("user",user);
-            session.setAttribute("otp",otp);
-            return "/forgot";
+            model.addAttribute("fail","fail");
+            model.addAttribute("failMsg","Your email was not registered... !!");
         }
         else {
-            User user = new User();
-            user.setEmail(email);
-            model.addAttribute("user",user);
-            return "/forgot";
+            Random random = new Random();
+            int otp = random.nextInt(999999);
+            String subject = "OTP From QuizWebApp";
+            String message = "OTP = "+otp;
+            boolean flag = this.emailService.sendEmail(message,subject,email);
+
+            if(flag)
+            {
+                session.setAttribute("otp",otp);
+                model.addAttribute("success","success");
+                model.addAttribute("successMsg","Otp Send Successfully !!");
+            }
+            else {
+                model.addAttribute("fail","fail");
+                model.addAttribute("failMsg","Fail to send otp !!");
+            }
         }
+        return "/forgot";
     }
 
     @PostMapping("/otp")
     public String verifyOTP(@RequestParam("otp") int otp,HttpSession session,Model model)
     {
+
         if(otp == (int) session.getAttribute("otp"))
         {
             return "reset_password";
@@ -118,14 +129,17 @@ public class AuthenticationController {
     }
 
     @PostMapping("/new_pass")
-    public String newPassVerify(@RequestParam("password") int pass,@RequestParam("re_password") int rePass,Model model)
+    public String newPassVerify(@RequestParam("password") String pass,@RequestParam("re_password") String rePass,Model model,HttpSession session)
     {
-        if(pass!=rePass)
+        if(!pass.equals(rePass))
         {
             return "reset_password";
         }
         else {
             model.addAttribute("user",new User());
+            User userByEmail = userRepository.getUserByEmail((String) session.getAttribute("email"));
+            userByEmail.setPassword(bCryptPasswordEncoder.encode(pass));
+            userRepository.save(userByEmail);
             return "login";
         }
     }
