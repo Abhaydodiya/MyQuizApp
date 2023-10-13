@@ -22,20 +22,12 @@
             box-sizing: border-box;
             padding: 0 5px;
         }
-        @media (min-width: 890px)
-        {
-            footer {
-                height: 80px;
-                text-align: center;
-                line-height: 80px;
-                position: fixed;
-                width: 100%;
-                bottom: 0;
-            }
-        }
     </style>
 </head>
 <body>
+<!-- Importing NavBar -->
+<div th:insert="navbar.html :: navbar"></div>
+
 <!-- Main Container Start -->
 <div class="main-container container py-5 px-4">
     <div class="text-box">
@@ -82,7 +74,7 @@
                     <button class="btn btn-warning" type="submit">Register</button>
                 </div>
                 <div class="form-group custom-col">
-                    <button class="btn btn-warning" type="reset">Reset</button>
+                    <button class="btn btn-warning" onclick="window.location.href='/signin/forgot'" type="reset">Reset Password</button>
                 </div>
             </div>
 

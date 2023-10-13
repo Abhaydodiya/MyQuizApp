@@ -140,6 +140,8 @@ public class AuthenticationController {
             User userByEmail = userRepository.getUserByEmail((String) session.getAttribute("email"));
             userByEmail.setPassword(bCryptPasswordEncoder.encode(pass));
             userRepository.save(userByEmail);
+            model.addAttribute("success","success");
+            model.addAttribute("successMsg","Password reset successfully please login !!");
             return "login";
         }
     }

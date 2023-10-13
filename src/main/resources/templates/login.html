@@ -27,11 +27,16 @@
     </style>
 </head>
 <body>
+<!-- Importing NavBar -->
+<div th:insert="navbar.html :: navbar"></div>
 
 <!-- Main Container Start -->
 <div class="main-container container py-5 px-4">
     <div class="text-box">
         <h1 class="mb-5 text-center">Login</h1>
+
+        <div th:insert="toast_notification.html :: section"></div>
+
         <form class="card bg-dark py-5 px-4" action="#" method="post" th:action="@{/signin}" th:object="${user}">
             <div class="alert" role="alert" th:classappend="${session.message.type}" th:if="${session.message}">
                 <p class="text-center" th:text="${session.message.content}"></p>
@@ -58,9 +63,9 @@
             </div>
 
             <div class="text-center">
-                <button class="btn btn-warning" type="submit">Sign in</button>
-                <button class="btn btn-warning" onclick="window.location.href='/signin/forgot'" type="reset">Reset</button>
-                <button class="btn btn-warning" onclick="window.location.href='register'" type="button">Sign Up</button>
+                <button class="btn btn-warning" type="submit">Login</button>
+                <button class="btn btn-warning" onclick="window.location.href='/signin/forgot'" type="reset">Reset Password</button>
+                <button class="btn btn-warning" onclick="window.location.href='register'" type="button">Register</button>
             </div>
         </form>
     </div>
