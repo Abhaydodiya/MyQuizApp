@@ -42,7 +42,7 @@
     <td th:text="${technology.technologyName}"></td>
 
     <td style="cursor: pointer">
-      <a href="#"><i
+      <a th:href="@{/admin/technology/updateTechnology/{id}(id=${technology.techId})}"><i
               class="fa-solid fa-pen-to-square"></i></a>
     </td>
 

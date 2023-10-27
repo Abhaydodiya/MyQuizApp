@@ -114,6 +114,39 @@ public class AdminController {
         return "redirect:/admin/dashboard";
     }
 
+    @GetMapping("/question/updateQuestion/{id}")
+    public String updateQuestionPage(@PathVariable(value = "id") int id,Model model)
+    {
+        Question questionById = quizService.findQuestionById(id);
+        model.addAttribute("question",questionById);
+        model.addAttribute("listOfTechnology",quizService.getAllTechnology());
+        return "admin/updateQuestion";
+    }
+
+    @GetMapping("/technology/updateTechnology/{id}")
+    public String updateTechnologyPage(@PathVariable(value = "id") int id,Model model)
+    {
+        model.addAttribute("listOfTechnology",quizService.getAllTechnology());
+        model.addAttribute("tech",quizService.findTechnologyById(id));
+        return "admin/updateTechnology";
+    }
+
+    @PostMapping("/updateQuestion")
+    public String updateQuestion(@ModelAttribute("question")Question question,Model model)
+    {
+        questionRepo.save(question);
+        return "redirect:/admin/questions";
+    }
+
+    @PostMapping("/updateTechnology")
+    public String updateTechnology(@ModelAttribute("technology") Technology technology,Model model)
+    {
+        quizService.setTech(technology);
+        return "redirect:/admin/technologies";
+    }
+
+
+
     @GetMapping("/question/deleteQuestion/{id}")
     public String deleteQuestion(@PathVariable(value = "id") int id)
     {

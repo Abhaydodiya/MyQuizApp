@@ -10,4 +10,5 @@ import java.util.ArrayList;
 @Repository
 public interface QuestionRepo extends JpaRepository<Question, Integer> {
     public ArrayList<Question> findQuestionsByTechnology(Technology technology);
+    public Question findQuestionByQuesId(int id);
 }

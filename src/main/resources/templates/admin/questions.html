@@ -54,7 +54,7 @@
         <td th:text="${question.technology.technologyName}"></td>
 
         <td style="cursor: pointer">
-            <a href="#"><i
+            <a th:href="@{/admin/question/updateQuestion/{id}(id=${question.quesId})}"><i
                     class="fa-solid fa-pen-to-square"></i></a>
         </td>
 

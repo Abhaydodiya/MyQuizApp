@@ -122,5 +122,9 @@ public class QuizService {
 		tRepo.deleteById(id);
 	}
 
+	public Question findQuestionById(int id)
+	{
+		return qRepo.findQuestionByQuesId(id);
+	}
 
 }
