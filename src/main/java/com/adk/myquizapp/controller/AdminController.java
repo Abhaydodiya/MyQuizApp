@@ -12,6 +12,7 @@ import java.security.Principal;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.Random;
 
 @Controller
 @RequestMapping("/admin")
@@ -23,6 +24,8 @@ public class AdminController {
     QuestionRepo questionRepo;
     @Autowired
     QuizRepo quizRepo;
+    @Autowired
+    QuizScheduler quizScheduler;
 
     public User getUser(Principal principal) {
         String user = principal.getName();
@@ -72,6 +75,16 @@ public class AdminController {
         return "user/scoreboard";
     }
 
+    @GetMapping("/quizSchedule")
+    public String quizSchedule(Model m)
+    {
+        quizScheduler.updateQuizStatus();
+        List<Quiz> quizList = quizService.quizList();
+        m.addAttribute("quizList", quizList);
+        m.addAttribute("admin","admin");
+        return "admin/quizSchedules";
+    }
+
     @RequestMapping("/addTechnology")
     public String addTech(Model model,Principal principal)
     {
@@ -108,6 +121,9 @@ public class AdminController {
         LocalDateTime scheduledDateTime = LocalDateTime.parse(schedule, formatter);
         q.setScheduledDatetime(scheduledDateTime);
         q.setActive(false);
+        Random random = new Random();
+        int i = random.nextInt(100000,999999);
+        q.setQuizCode(i);
         quizRepo.save(q);
         return "redirect:/admin/dashboard";
     }
@@ -149,5 +165,12 @@ public class AdminController {
     {
         quizService.deleteTechById(id);
         return "redirect:/admin/technologies";
+    }
+
+    @GetMapping("/quizSchedules/deleteQuiz/{id}")
+    public String deleteQuiz(@PathVariable(value = "id") int id)
+    {
+        quizService.deleteQuiz(id);
+        return "redirect:/admin/quizSchedule";
     }
 }

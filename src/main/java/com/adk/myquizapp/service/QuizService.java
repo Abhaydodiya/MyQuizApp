@@ -127,4 +127,15 @@ public class QuizService {
 		return qRepo.findQuestionByQuesId(id);
 	}
 
+	public List<Quiz> quizList()
+	{
+		return quizRepo.findAll();
+	}
+
+	public void deleteQuiz(int id)
+	{
+		quizRepo.deleteById(id);
+	}
+
+
 }

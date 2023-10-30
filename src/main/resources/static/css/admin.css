@@ -141,8 +141,12 @@ body {
     background-color: #E74C3C;
 }
 
-.dashbord-skyblue .icon-section, .dashbord-skyblue .icon-section i {
+.dashbord-purple .icon-section, .dashbord-purple .icon-section i {
     background-color: #8E44AD;
+}
+
+.dashbord-grey .icon-section, .dashbord-grey .icon-section i {
+    background-color: #a4a4a4;
 }
 
 .no-underline {
