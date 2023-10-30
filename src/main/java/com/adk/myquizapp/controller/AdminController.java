@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.*;
 import java.security.Principal;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Date;
 import java.util.List;
 
 @Controller
@@ -102,7 +101,6 @@ public class AdminController {
         model.addAttribute("listOfTechnology",quizService.getAllTechnology());
         return "admin/quizGenerate";
     }
-
     @PostMapping(value = "/generate-quiz")
     public String submitQuizSchedule(@ModelAttribute Quiz q,@RequestParam("schedule") String schedule,Model model)
     {
@@ -113,7 +111,6 @@ public class AdminController {
         quizRepo.save(q);
         return "redirect:/admin/dashboard";
     }
-
     @GetMapping("/question/updateQuestion/{id}")
     public String updateQuestionPage(@PathVariable(value = "id") int id,Model model)
     {
@@ -122,7 +119,6 @@ public class AdminController {
         model.addAttribute("listOfTechnology",quizService.getAllTechnology());
         return "admin/updateQuestion";
     }
-
     @GetMapping("/technology/updateTechnology/{id}")
     public String updateTechnologyPage(@PathVariable(value = "id") int id,Model model)
     {
@@ -130,35 +126,28 @@ public class AdminController {
         model.addAttribute("tech",quizService.findTechnologyById(id));
         return "admin/updateTechnology";
     }
-
     @PostMapping("/updateQuestion")
     public String updateQuestion(@ModelAttribute("question")Question question,Model model)
     {
         questionRepo.save(question);
         return "redirect:/admin/questions";
     }
-
     @PostMapping("/updateTechnology")
     public String updateTechnology(@ModelAttribute("technology") Technology technology,Model model)
     {
         quizService.setTech(technology);
         return "redirect:/admin/technologies";
     }
-
-
-
     @GetMapping("/question/deleteQuestion/{id}")
     public String deleteQuestion(@PathVariable(value = "id") int id)
     {
         quizService.deleteQuestionById(id);
         return "redirect:/admin/questions";
     }
-
     @GetMapping("/technology/deleteTechnology/{id}")
     public String deleteTechnology(@PathVariable(value = "id") int id)
     {
         quizService.deleteTechById(id);
         return "redirect:/admin/technologies";
     }
-
 }

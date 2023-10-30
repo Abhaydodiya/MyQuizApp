@@ -42,8 +42,8 @@
             <form class="card bg-dark py-5 px-4" action="/user/quiz" method="POST">
                 <p>Enter Your Name</p>
                 <input type="text" name="username" th:value="${name}" required/>
-                <p class="text-danger warning" th:if="${warning}" th:text="${warning}"></p>
 
+                <p class="text-danger warning" th:if="${warning}" th:text="${warning}"></p>
                 <p>Enter Number Of Question Do You Want</p>
                 <br>
                 <p class="text-warning warning" th:text="${limit}"></p>
