@@ -44,13 +44,13 @@
                 <input type="text" name="username" th:value="${name}" required/>
 
                 <p class="text-danger warning" th:if="${warning}" th:text="${warning}"></p>
-                <p>Enter Number Of Question Do You Want</p>
+                <p class="pb-4">Enter Number Of Question Do You Want</p>
                 <br>
                 <p class="text-warning warning" th:text="${limit}"></p>
                 <input type="number" name="numberOfQ" th:maxlength="${totalQuestions}" required/>
                 <p class="text-danger warning" th:if="${limitWarning}" th:text="${limitWarning}"></p>
 
-                <p>Choice language/technology</p>
+                <p class="pb-4">Choice language/technology</p>
                 <br>
                 <p class="text-warning warning">Note : technologyName(No. of questions)</p>
                 <select name="technology">
