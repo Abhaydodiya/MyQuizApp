@@ -47,7 +47,7 @@ public class AuthenticationController {
             List<User> byEmailOrPhoneNumber = userRepository.findByEmailOrPhoneNumber(user.getEmail(), user.getPhoneNumber());
             if(byEmailOrPhoneNumber.isEmpty())
             {
-                user.setRole("ROLE_STUDENT");
+//                user.setRole("ROLE_STUDENT");
                 user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
 
                 userRepository.save(user);

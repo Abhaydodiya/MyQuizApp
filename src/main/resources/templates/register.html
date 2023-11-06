@@ -52,7 +52,15 @@
                            th:value="${user.phoneNumber}" type="text">
                 </div>
             </div>
-
+            <div class="form-row">
+                <div class="form-group custom-col">
+                    <p>Role : Teacher/Student</p>
+                    <select name="role" class="form-control">
+                        <option value="ROLE_STUDENT">STUDENT</option>
+                        <option value="ROLE_ADMIN">TEACHER</option>
+                    </select>
+                </div>
+            </div>
             <div class="form-row">
                 <div class="form-group custom-col">
                     <p>Email</p>
@@ -74,12 +82,16 @@
                     <button class="btn btn-warning" type="submit">Register</button>
                 </div>
                 <div class="form-group custom-col">
-                    <button class="btn btn-warning" onclick="window.location.href='/signin/forgot'" type="reset">Reset Password</button>
+                    <button class="btn btn-warning" onclick="window.location.href='/signin/forgot'" type="reset">Reset
+                        Password
+                    </button>
                 </div>
             </div>
 
             <p style="padding:0 5px">If you have already account then click on login !!</p>
-            <button style="margin: 5px" class="btn btn-warning" onclick="window.location.href='signin'" type="button">Login</button>
+            <button style="margin: 5px" class="btn btn-warning" onclick="window.location.href='signin'" type="button">
+                Login
+            </button>
 
         </form>
     </div>
